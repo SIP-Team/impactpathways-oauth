@@ -1,0 +1,27 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>TikTok Redirect</title></head>
+<body>
+<script>
+(function () {
+  const p = new URLSearchParams(window.location.search);
+  const code  = p.get('code');
+  const state = p.get('state');
+
+  // Your Streamlit app URL:
+  const dest = 'https://sip-team-sip-social-appsdashboardapp-jupdjy.streamlit.app/';
+
+  if (code) {
+    const to = new URL(dest);
+    to.searchParams.set('tiktok_cb','1');
+    to.searchParams.set('code', code);
+    if (state) to.searchParams.set('state', state);
+    // also pass through error info if present
+    if (p.get('error')) to.searchParams.set('error', p.get('error'));
+    if (p.get('error_description')) to.searchParams.set('error_description', p.get('error_description'));
+    window.location.replace(to.toString());
+  } else {
+    document.body.textContent = 'No code from TikTok.';
+  }
+})();
+</script>
+</body></html>
